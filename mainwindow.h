@@ -27,6 +27,12 @@ private slots:
 
     void on_btnRemoveAll_clicked();
 
+    void on_acOpen_triggered();
+
+    void on_acSave_triggered();
+
+    void on_asSaveHow_triggered();
+
 private:
     bool firstClick;
     int sizeName;

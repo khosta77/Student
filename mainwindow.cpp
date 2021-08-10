@@ -15,6 +15,7 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::on_btnAdd_clicked(){
+
     if(LineEditControl()){
         student.addStudent(ui->leName->text(), ui->leMath->text(), ui->lePhysics->text(), ui->leRussian->text());
         clear();
@@ -104,5 +105,20 @@ void MainWindow::on_btnRemoveAll_clicked(){
         sizeName = 0;
         VeiwWidjetUpdate();
     }
+}
+
+
+void MainWindow::on_acOpen_triggered(){
+    qDebug() << "click Open";
+}
+
+
+void MainWindow::on_acSave_triggered(){
+    qDebug() << "click Save";
+}
+
+
+void MainWindow::on_asSaveHow_triggered(){
+    qDebug() << "click save How";
 }
 
