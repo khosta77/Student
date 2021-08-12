@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "QListWidget"
+#include "QString"
+#include "QFile"
 #include "studentlist.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,8 +37,11 @@ private slots:
 
 private:
     bool firstClick;
+    bool fileFirstClick;
     int sizeName;
     QString BackUpName;
+    QString FileName;
+    QFile File;
     void clear();
     void VeiwWidjetUpdate();
     bool LineEditControl();

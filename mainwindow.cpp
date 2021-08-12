@@ -3,6 +3,7 @@
 #include "studentlist.h"
 #include "QDebug"
 #include "QDebugStateSaver"
+#include "QFileDialog"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) , ui(new Ui::MainWindow){
     firstClick = true;
@@ -107,18 +108,66 @@ void MainWindow::on_btnRemoveAll_clicked(){
     }
 }
 
-
 void MainWindow::on_acOpen_triggered(){
-    qDebug() << "click Open";
+    FileName = QFileDialog::getOpenFileName( 0, "Выбор файла");
+    File.setFileName(FileName);
+    if (File.open(QIODevice::ReadOnly | QIODevice::Text)){
+        on_btnRemoveAll_clicked();
+        int const BUFFERSIZE = 5;
+        QString bufferStudent[BUFFERSIZE];
+        while (!File.atEnd()) {
+            bufferStudent[0] = File.readLine();
+            for(int i = 0, j = 1; i < bufferStudent[0].size() - 2; i++){
+                    if(bufferStudent[0].at(i) != QChar('?')){
+                        bufferStudent[j] += bufferStudent[0].at(i);
+                    }
+                    else {
+                        j++;
+                    }
+            }
+            if(!bufferStudent[1].isEmpty()){
+                student.addStudent(bufferStudent[1], bufferStudent[2], bufferStudent[3], bufferStudent[4]);
+                for (int i = 0; i < BUFFERSIZE; i++) {
+                    bufferStudent[i] = 0;
+                }
+                sizeName++;
+            }
+        }
+        VeiwWidjetUpdate();
+        File.close();
+    }
 }
 
 
 void MainWindow::on_acSave_triggered(){
-    qDebug() << "click Save";
+    if(FileName.isEmpty()){
+        FileName = QFileDialog::getSaveFileName( 0, "Выбор файла");
+    }
+    File.setFileName(FileName);
+    if(File.open(QIODevice::Append | QIODevice::Truncate)){
+        QTextStream out(&File);
+        for(int i = 0; i < sizeName; i++){
+            out
+               << student.getNameStudent(student.getNameStudentForListWidjet(i)).toLocal8Bit()
+               << "?"
+               << student.getMathStudent(student.getNameStudentForListWidjet(i)).toLocal8Bit()
+               << "?"
+               << student.getPhisicsStudent(student.getNameStudentForListWidjet(i)).toLocal8Bit()
+               << "?"
+               << student.getRussianStudent(student.getNameStudentForListWidjet(i)).toLocal8Bit()
+               << " \n";
+        }
+        File.close();
+    }
 }
 
 
 void MainWindow::on_asSaveHow_triggered(){
-    qDebug() << "click save How";
+    FileName = QFileDialog::getSaveFileName( 0, "Выбор файла");
+    if(!FileName.isEmpty()){
+        on_acSave_triggered();
+    }
 }
+
+
 

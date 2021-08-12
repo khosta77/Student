@@ -73,15 +73,7 @@ void StudentList::nameSort(){
 }
 
 bool StudentList::controlEmpty(){
-    if(first == NULL){
-        qDebug() << "ce false";
-        return false;
-    }
-    else {
-        qDebug() << "ce true";
-        return true;
-    }
-//    return (first == NULL) ? false : true;
+    return (first == NULL) ? false : true;
 }
 
 QString StudentList::getNameStudent(QString key){
